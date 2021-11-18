@@ -1,8 +1,14 @@
 <template>
   <div v-if="event">
     <h1>{{ event.title }}</h1>
-    <p>{{ event.time }} on {{ event.date }} @ {{ event.organizer }}</p>
-    <p>{{ event.description }}</p>
+    <div id="nav">
+      <router-link :to="{ name: 'EventDetails' }">Details</router-link>
+      |
+      <router-link :to="{ name: 'EventRegister' }">Register</router-link>
+      |
+      <router-link :to="{ name: 'EventEdit' }">Edit</router-link>
+    </div>
+    <router-view :event="event"></router-view>
   </div>
 </template>
 
@@ -31,4 +37,7 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.nav {
+}
+</style>
