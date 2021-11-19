@@ -13,7 +13,7 @@ const routes = [
     props: (route) => ({ page: parseInt(route.query.page) || 1 }),
   },
   {
-    path: '/event/:id',
+    path: '/events/:id',
     name: 'EventLayout',
     component: EventLayout,
     props: true,
@@ -35,13 +35,31 @@ const routes = [
       },
     ],
   },
+  // // Redirect with children
+  // {
+  //   path: '/event/:id',
+  //   redirect: () => {
+  //     return { name: 'EventDetails' };
+  //   },
+  //   children: [
+  //     { path: 'register', redirect: () => ({ name: 'EventRegister' }) },
+  //     { path: 'edit', redirect: () => ({ name: 'EventEdit' }) },
+  //   ],
+  // },
 
+  // // Redirect with Wildcard
+  // This is taking whatever comes after the matching word /event/ and placing it after /events/. This covers all children routes
   {
-    path: '/about',
+    path: '/event/:afterEvent(.*)',
+    redirect: (to) => {
+      return { path: '/events/' + to.params.afterEvent };
+    },
+  },
+  {
+    path: '/about-us',
     name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
+    // Using Alias
+    alias: '/about',
     component: () =>
       import(/* webpackChunkName: "about" */ '../views/About.vue'),
   },
