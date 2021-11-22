@@ -1,4 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import NProgress from 'nprogress';
+import EventService from '../services/EventService';
+
+import GStore from '@/store';
 import EventList from '../views/EventList.vue';
 import EventLayout from '../views/event/Layout';
 import EventDetails from '../views/event/Details';
@@ -17,8 +21,24 @@ const routes = [
   {
     path: '/events/:id',
     name: 'EventLayout',
-    component: EventLayout,
-    props: true,
+    component: EventLayout, // <-- We removed the props: true.
+    beforeEnter: (to) => {
+      return EventService.getEvent(to.params.id) // Return and params.id
+        .then((response) => {
+          GStore.event = response.data; // <--- Store the event
+        })
+        .catch((error) => {
+          if (error.response && error.response.status == 404) {
+            return {
+              // <--- Return
+              name: '404Resource',
+              params: { resource: 'event' },
+            };
+          } else {
+            return { name: 'NetworkError' }; // <--- Return
+          }
+        });
+    },
     children: [
       {
         path: '',
@@ -87,6 +107,14 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach(() => {
+  NProgress.start();
+});
+
+router.afterEach(() => {
+  NProgress.done();
 });
 
 export default router;

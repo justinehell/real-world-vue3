@@ -1,13 +1,10 @@
-import { createApp, reactive } from 'vue';
+import { createApp } from 'vue'; // <--- removed reactive
 import App from './App.vue';
 import router from './router';
-import store from './store';
+import GStore from './store'; // <--- Modified this import line
 import 'nprogress/nprogress.css';
 
-const GStore = reactive({ flashMessage: '' });
-
 createApp(App)
-  .use(store)
-  .use(router)
-  .provide('GStore', GStore) // provide this object so others can inject it
+  .use(router) // <--- Removed use(store), because we're not using Vuex
+  .provide('GStore', GStore)
   .mount('#app');
