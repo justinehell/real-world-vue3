@@ -3,10 +3,11 @@ import NProgress from 'nprogress';
 import EventService from '../services/EventService';
 
 import GStore from '@/store';
-import EventList from '../views/EventList.vue';
+import EventList from '../views/EventList';
 import EventLayout from '../views/event/Layout';
 import EventDetails from '../views/event/Details';
 import EventRegister from '../views/event/Register';
+import EventCreate from '../views/EventCreate';
 import EventEdit from '../views/event/Edit';
 import NotFound from '../views/NotFound';
 import NetworkError from '../views/NetworkError';
@@ -58,19 +59,7 @@ const routes = [
       },
     ],
   },
-  // // Redirect with children
-  // {
-  //   path: '/event/:id',
-  //   redirect: () => {
-  //     return { name: 'EventDetails' };
-  //   },
-  //   children: [
-  //     { path: 'register', redirect: () => ({ name: 'EventRegister' }) },
-  //     { path: 'edit', redirect: () => ({ name: 'EventEdit' }) },
-  //   ],
-  // },
-
-  // // Redirect with Wildcard
+  // Redirect with Wildcard
   // This is taking whatever comes after the matching word /event/ and placing it after /events/. This covers all children routes
   {
     path: '/event/:afterEvent(.*)',
@@ -79,9 +68,13 @@ const routes = [
     },
   },
   {
+    path: '/create',
+    name: 'EventCreate',
+    component: EventCreate,
+  },
+  {
     path: '/about-us',
     name: 'About',
-    // Using Alias
     alias: '/about',
     component: () =>
       import(/* webpackChunkName: "about" */ '../views/About.vue'),
