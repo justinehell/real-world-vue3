@@ -4,6 +4,8 @@ import EventLayout from '../views/event/Layout';
 import EventDetails from '../views/event/Details';
 import EventRegister from '../views/event/Register';
 import EventEdit from '../views/event/Edit';
+import NotFound from '../views/NotFound';
+import NetworkError from '../views/NetworkError';
 
 const routes = [
   {
@@ -62,6 +64,23 @@ const routes = [
     alias: '/about',
     component: () =>
       import(/* webpackChunkName: "about" */ '../views/About.vue'),
+  },
+  {
+    path: '/:catchAll(.*)',
+    name: 'NotFound',
+    component: NotFound,
+  },
+  {
+    path: '/404/:resource',
+    name: '404Resource',
+    component: NotFound,
+    props: true,
+  },
+  {
+    path: '/network-error',
+    name: 'NetworkError',
+    component: NetworkError,
+    props: true,
   },
 ];
 
