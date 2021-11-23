@@ -1,38 +1,35 @@
 <template>
+  <h1>Events for Good</h1>
   <div class="events">
-    <h1>Event For Good</h1>
     <EventCard v-for="event in events" :key="event.id" :event="event" />
   </div>
 </template>
 
 <script>
-import EventCard from '@/components/EventCard.vue';
-import { mapState } from 'vuex';
-
+import EventCard from '@/components/EventCard.vue'
+import EventService from '@/services/EventService.js'
 export default {
   name: 'EventList',
-  props: {
-    page: {
-      type: Number,
-      default: 1,
-    },
-  },
   components: {
     EventCard,
   },
+  data() {
+    return {
+      events: null,
+    }
+  },
   created() {
-    this.$store.dispatch('fetchEvents').catch((error) => {
-      this.$router.push({
-        name: 'ErrorDisplay',
-        params: { error },
-      });
-    });
+    EventService.getEvents()
+      .then((response) => {
+        this.events = response.data
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   },
-  computed: {
-    ...mapState(['events']),
-  },
-};
+}
 </script>
+
 <style scoped>
 .events {
   display: flex;
