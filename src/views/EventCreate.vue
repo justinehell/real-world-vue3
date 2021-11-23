@@ -71,9 +71,12 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.event.id = uuidv4();
-      this.event.organizer = this.$store.state.user;
-      console.log('Event:', this.event);
+      const event = {
+        ...this.event,
+        id: uuidv4(),
+        organizer: this.$store.state.user,
+      };
+      this.$store.dispatch('createEvent', event);
     },
   },
 };

@@ -1,8 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import NProgress from 'nprogress';
-import EventService from '../services/EventService';
 
-import GStore from '@/store';
+import store from '@/store';
 import EventList from '../views/EventList';
 import EventLayout from '../views/event/Layout';
 import EventDetails from '../views/event/Details';
@@ -17,45 +16,45 @@ const routes = [
     path: '/',
     name: 'EventList',
     component: EventList,
-    props: (route) => ({ page: parseInt(route.query.page) || 1 }),
   },
   {
     path: '/events/:id',
-    name: 'EventLayout',
-    component: EventLayout, // <-- We removed the props: true.
-    beforeEnter: (to) => {
-      return EventService.getEvent(to.params.id) // Return and params.id
-        .then((response) => {
-          GStore.event = response.data; // <--- Store the event
-        })
-        .catch((error) => {
-          if (error.response && error.response.status == 404) {
-            return {
-              // <--- Return
-              name: '404Resource',
-              params: { resource: 'event' },
-            };
-          } else {
-            return { name: 'NetworkError' }; // <--- Return
-          }
-        });
+    component: EventLayout,
+    props: true,
+    beforeEnter: async (to, from, next) => {
+      try {
+        await store.dispatch('fetchEventById', to.params.id);
+        next();
+      } catch (error) {
+        if (error.response && error.response.status == 404) {
+          next({
+            name: '404Resource',
+            params: { resource: 'event' },
+          });
+        } else {
+          next({ name: 'NetworkError' });
+        }
+      }
     },
     children: [
       {
         path: '',
         name: 'EventDetails',
         component: EventDetails,
+        props: true,
       },
       {
         path: 'register',
         name: 'EventRegister',
         component: EventRegister,
+        props: true,
       },
       {
         path: 'edit',
         name: 'EventEdit',
         component: EventEdit,
         meta: { requireAuth: true },
+        props: true,
       },
     ],
   },
@@ -115,11 +114,8 @@ router.beforeEach((to, from) => {
 
   const notAuthorized = true;
   if (to.meta.requireAuth && notAuthorized) {
-    GStore.flashMessage = 'Sorry, you are not authorized to view this page';
-
-    setTimeout(() => {
-      GStore.flashMessage = '';
-    }, 3000);
+    const message = 'Sorry, you are not authorized to view this page';
+    store.dispatch('updateMessage', message);
 
     if (from.href) {
       // If this navigation came from a previous page.

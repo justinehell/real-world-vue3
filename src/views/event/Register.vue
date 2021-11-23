@@ -1,6 +1,8 @@
 <template>
-  <p>Register for the event here</p>
-  <button @click="register">Register Me</button>
+  <div>
+    <p>Register for the event here</p>
+    <button @click="register">Register Me</button>
+  </div>
 </template>
 
 <script>
@@ -11,18 +13,12 @@ export default {
       required: true,
     },
   },
-  inject: ['GStore'], // <-- Inject the Global Store
   methods: {
     register() {
       // Assuming successful API call to register them
 
-      this.GStore.flashMessage =
-        'You are successfully registered for ' + this.event.title;
-      setTimeout(() => {
-        // After 3 seconds remove it
-        this.GStore.flashMessage = '';
-      }, 3000);
-
+      const message = 'You are successfully registered for ' + this.event.title;
+      this.$store.dispatch('updateMessage', message);
       this.$router.push({
         name: 'EventDetails',
       });
