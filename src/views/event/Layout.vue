@@ -24,7 +24,7 @@ export default {
   computed: {
     ...mapGetters(['getEventById']),
     event() {
-      return this.getEventById(parseInt(this.id));
+      return this.getEventById(this.id);
     },
   },
 };

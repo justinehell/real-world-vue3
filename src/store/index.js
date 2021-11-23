@@ -31,25 +31,30 @@ export default createStore({
       commit('UPDATE_MESSAGE', message);
     },
     fetchEvents({ commit }) {
-      EventService.getEvents()
+      return EventService.getEvents()
         .then((response) => {
           commit('SET_EVENTS', response.data);
         })
         .catch((error) => {
-          console.log(error);
+          throw error;
         });
     },
-    async fetchEventById({ commit }, id) {
-      await EventService.getEvent(id).then((response) => {
-        commit('SET_EVENTS', [response.data]);
-      });
+    async fetchEventById({ state, commit }, id) {
+      let event = state.events.find((e) => e.id === id);
+      if (!event) {
+        const { data } = await EventService.getEvent(id);
+        event = data;
+      }
+      commit('SET_EVENTS', [event]);
     },
     createEvent({ commit }, newEvent) {
-      EventService.postEvent(newEvent).then(() => {
-        commit('UPDATE_EVENTS', newEvent).catch((error) => {
-          console.log(error);
+      return EventService.postEvent(newEvent)
+        .then(() => {
+          commit('UPDATE_EVENTS', newEvent);
+        })
+        .catch((error) => {
+          throw error;
         });
-      });
     },
   },
   modules: {},

@@ -10,6 +10,7 @@ import EventCreate from '../views/EventCreate';
 import EventEdit from '../views/event/Edit';
 import NotFound from '../views/NotFound';
 import NetworkError from '../views/NetworkError';
+import ErrorDisplay from '../views/ErrorDisplay';
 
 const routes = [
   {
@@ -77,6 +78,12 @@ const routes = [
     alias: '/about',
     component: () =>
       import(/* webpackChunkName: "about" */ '../views/About.vue'),
+  },
+  {
+    path: '/error/:error',
+    name: 'ErrorDisplay',
+    props: true,
+    component: ErrorDisplay,
   },
   {
     path: '/:catchAll(.*)',
