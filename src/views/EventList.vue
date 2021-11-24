@@ -14,25 +14,22 @@
 
 <script>
 import EventCard from '@/components/EventCard.vue'
-import EventService from '@/services/EventService.js'
 export default {
-  name: 'EventList',
   components: {
     EventCard,
   },
-  data() {
-    return {
-      events: null,
-    }
-  },
   created() {
-    EventService.getEvents()
-      .then((response) => {
-        this.events = response.data
+    this.$store.dispatch('fetchEvents').catch((error) => {
+      this.$router.push({
+        name: 'ErrorDisplay',
+        params: { error: error },
       })
-      .catch((error) => {
-        console.log(error)
-      })
+    })
+  },
+  computed: {
+    events() {
+      return this.$store.state.events
+    },
   },
 }
 </script>
@@ -42,5 +39,9 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.event-link {
+  color: #2c3e50;
+  text-decoration: none;
 }
 </style>

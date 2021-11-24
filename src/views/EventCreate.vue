@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import { v4 as uuidv4 } from 'uuid'
 export default {
   data() {
     return {
@@ -71,7 +72,25 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log('Event:', this.event)
+      const event = {
+        ...this.event,
+        id: uuidv4(),
+        organizer: this.$store.state.user,
+      }
+      this.$store
+        .dispatch('createEvent', event)
+        .then(() => {
+          this.$router.push({
+            name: 'EventDetails',
+            params: { id: event.id },
+          })
+        })
+        .catch((error) => {
+          this.$router.push({
+            name: 'ErrorDisplay',
+            params: { error: error },
+          })
+        })
     },
   },
 }
