@@ -1,14 +1,29 @@
 <template>
   <div id="app">
+    <SalutationName
+      v-model:salutation="form.salutation"
+      v-model:name="form.name"
+    />
     <pre>{{ form }}</pre>
   </div>
 </template>
 
 <script>
+import { reactive } from 'vue' // composition API
+import SalutationName from '@/components/SalutationName'
 export default {
   name: 'App',
-  components: {},
-  setup() {},
+  components: { SalutationName },
+  setup() {
+    const form = reactive({
+      // our State
+      salutation: '',
+      name: '',
+    })
+    return {
+      form,
+    }
+  },
 }
 </script>
 
