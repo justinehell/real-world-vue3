@@ -5,7 +5,13 @@
       v-model:name.capitalize="form.name"
     />
     <pre>{{ form }}</pre>
-    <BaseInput v-model="email" label="Email:" />
+    <BaseInput
+      v-model="email"
+      @blur="email = 'blurrr@its.cold'"
+      label="Email:"
+      type="email"
+      class="thicc"
+    />
 
     <pre>{{ email }}</pre>
   </div>
