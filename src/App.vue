@@ -1,14 +1,16 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link :to="{ name: 'EventList' }">Events</router-link> |
-      <router-link :to="{ name: 'About' }">About</router-link>
-      |
-      <router-link :to="{ name: 'EventCreate' }">Create Event</router-link>
-    </div>
-    <router-view />
+    <pre>{{ form }}</pre>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'App',
+  components: {},
+  setup() {},
+}
+</script>
 
 <style>
 #app {
@@ -17,82 +19,88 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  margin-top: 60px;
 }
-
-button {
-  align-items: center;
-  height: 50px;
-  padding: 0 40px;
-  background: linear-gradient(to right, #16c0b0, #84cf6a);
-  color: #ffffff;
-  border: none;
-  border-radius: 6px;
-  font-size: 18px;
-  font-weight: 800;
-  cursor: pointer;
-  transition: all 0.2s linear;
+pre {
+  font-size: 1.5rem;
 }
-
-button:hover {
-  -webkit-transform: scale(1.02);
-  transform: scale(1.01);
-  box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.2);
+button,
+label,
+input,
+optgroup,
+select,
+textarea {
+  display: inline-flex;
+  font-family: 'Open sans', sans-serif;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
 }
-
-h2 {
-  font-size: 40px;
-  font-weight: 700;
+input,
+textarea {
+  box-sizing: border-box;
+  border: solid 1px rgba(0, 0, 0, 0.4);
 }
-
-h3 {
-  font-size: 25px;
-  font-weight: 700;
-}
-
-h4 {
-  font-size: 20px;
-  font-weight: 700;
-}
-
-input {
-  display: block;
+textarea {
   width: 100%;
-  height: 30px;
-  margin-bottom: 24px;
+  overflow: auto;
+  font-size: 20px;
 }
-
-input[type='text'] {
-  padding: 0px 10px;
+[type='checkbox'],
+[type='radio'] {
+  box-sizing: border-box;
+  padding: 0;
+  margin-right: 0.5rem;
 }
-
-input:focus {
-  border-color: #16c0b0;
-  outline: 0;
+[type='number']::-webkit-inner-spin-button,
+[type='number']::-webkit-outer-spin-button {
+  height: auto;
 }
-
-#nav {
-  padding: 30px;
+[type='search'] {
+  -webkit-appearance: textfield;
+  outline-offset: -2px;
 }
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+[type='search']::-webkit-search-decoration {
+  -webkit-appearance: none;
 }
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+[type='text'],
+[type='number'],
+[type='search'],
+[type='password'] {
+  height: 52px;
+  width: 100%;
+  padding: 0 10px;
+  font-size: 20px;
 }
-
-.form-container {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 10%;
+[type='text']:focus,
+[type='number']:focus,
+[type='search']:focus,
+[type='password']:focus {
+  border-color: #39b982;
 }
-
+select {
+  height: 52px;
+  padding: 0 24px 0 10px;
+  vertical-align: middle;
+  background: #fff
+    url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E")
+    no-repeat right 12px center;
+  background-size: 8px 10px;
+  border: solid 1px rgba(0, 0, 0, 0.4);
+  border-radius: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
 select:focus {
-  border-color: #16c0b0;
+  border-color: #39b982;
   outline: 0;
+}
+select:focus::ms-value {
+  color: #000;
+  background: #fff;
+}
+select::ms-expand {
+  opacity: 0;
 }
 </style>
