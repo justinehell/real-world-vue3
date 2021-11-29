@@ -5,23 +5,32 @@
       v-model:name.capitalize="form.name"
     />
     <pre>{{ form }}</pre>
+    <BaseInput v-model="email" label="Email:" />
+
+    <pre>{{ email }}</pre>
   </div>
 </template>
 
 <script>
-import { reactive } from 'vue' // composition API
+import { ref } from 'vue'
 import SalutationName from '@/components/SalutationName'
+import BaseInput from './components/BaseInput'
 export default {
   name: 'App',
-  components: { SalutationName },
+  components: {
+    SalutationName,
+    BaseInput,
+  },
   setup() {
-    const form = reactive({
+    const email = ref('')
+    const form = ref({
       // our State
       salutation: '',
       name: '',
     })
     return {
       form,
+      email,
     }
   },
 }
@@ -55,6 +64,9 @@ input,
 textarea {
   box-sizing: border-box;
   border: solid 1px rgba(0, 0, 0, 0.4);
+}
+input.thicc {
+  border-width: 4px;
 }
 textarea {
   width: 100%;
