@@ -21,6 +21,21 @@ export default defineComponent({
       events: [] as EventItem[],
     }
   },
+  computed: {
+    firstEvent(): EventItem {
+      return this.events[0]
+    },
+  },
+  methods: {
+    // typed param
+    addEvent(newEvent: EventItem) {
+      this.events.push(newEvent)
+    },
+    // typed return
+    secondEvent(): EventItem {
+      return this.events[1]
+    },
+  },
   created() {
     EventService.getEvents()
       .then((response) => {
